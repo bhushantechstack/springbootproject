@@ -11,3 +11,6 @@
 
 ### To Update Name of Product patch Call
 ** http://localhost:8080/api/changeName?id=1&name=drama
+
+### To Delete Specific product delete Call
+** http://localhost:8080/api/delete/1

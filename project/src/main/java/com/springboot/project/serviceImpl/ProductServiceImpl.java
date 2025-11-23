@@ -51,4 +51,11 @@ public class ProductServiceImpl implements ProductService {
         return 0;
     }
 
+    @Override
+    public String deleteProduct(long id) {
+        // TODO Auto-generated method stub
+        productRepository.deleteById(id);
+        return "Product deleted successfully with Id: "+ id;
+    }
+
 }
