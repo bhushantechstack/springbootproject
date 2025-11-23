@@ -10,4 +10,8 @@ public interface ProductService {
 
     List<Products> getAllProducts();
 
+    long updateProduct(Products product);
+
+    long updateProduct(Long id, String name);
+
 }
