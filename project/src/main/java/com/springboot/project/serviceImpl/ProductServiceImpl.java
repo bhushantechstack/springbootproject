@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springboot.project.costomException.ProductIsNotAvailable;
 import com.springboot.project.model.Products;
 import com.springboot.project.repository.ProductRepository;
 import com.springboot.project.service.ProductService;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -16,9 +18,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void registerProduct(Products product) {
         // TODO Auto-generated method stub
+        if (product.getName().equals("Wifi")) {
+            throw new ProductIsNotAvailable("Product with name 'Wifi' is not available for registration.");
+        }
         productRepository.save(product);
-
-        
     }
 
     @Override
@@ -34,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         if (existingProduct != null) {
             existingProduct.setName(product.getName());
             existingProduct.setPrice(product.getPrice());
-            
+
             return productRepository.save(existingProduct).getId();
         }
         return 0;
@@ -54,8 +57,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(long id) {
         // TODO Auto-generated method stub
-        productRepository.deleteById(id);
-        return "Product deleted successfully with Id: "+ id;
+        if (productRepository.findById(id).isEmpty()) {
+            return "Product not found with Id: " + id;
+        } else {
+            productRepository.deleteById(id);
+            return "Product deleted successfully with Id: " + id;
+        }
+
     }
 
 }
