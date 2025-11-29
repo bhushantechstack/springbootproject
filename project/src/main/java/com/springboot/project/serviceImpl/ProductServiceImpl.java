@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springboot.project.costomException.MultipleProductFoundWithThisName;
 import com.springboot.project.costomException.ProductIsNotAvailable;
 import com.springboot.project.model.Products;
 import com.springboot.project.repository.ProductRepository;
@@ -59,6 +60,25 @@ public class ProductServiceImpl implements ProductService {
             return "Product deleted successfully with Id: " + id;
         }
 
+    }
+
+    @Override
+    public Products getProductsByIdAndName(Long id, String name) {
+        return productRepository.findByIdAndName(id, name);
+    }
+
+    @Override
+    public String getProductByName(String name) {
+        try {
+        Products product = productRepository.findByName(name);
+        if (product != null) {
+            return "Product found: " + product.getName() + " with ID: " + product.getId();
+        } else {
+            return "Product not found with name: " + name;
+        }
+        } catch (Exception e) {
+            throw new MultipleProductFoundWithThisName("An error occurred while retrieving the product: " + e.getMessage());
+        }
     }
 
 }
