@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.springboot.project.model.Products;
 import com.springboot.project.service.ProductService;
 
 import jakarta.websocket.server.PathParam;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/api")
@@ -23,37 +25,46 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private final WebClient webClient;
+
+    public ProductController(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @GetMapping("/product")
     public String getProduct() {
-        // Implementation here
         return "Product details";
     }
+
     @PutMapping("/register")
     public void registerProduct(@RequestBody Products product) {
-        // Implementation here
         productService.registerProduct(product);
     }
+
     @GetMapping("/products")
     public List<Products> getAllProducts() {
-        // Implementation here
         return productService.getAllProducts();
     }
+
     @PutMapping("/update")
     public long updateProduct(@RequestBody Products product) {
-        // Implementation here
         return productService.updateProduct(product);
     }
+
     @PatchMapping("/changeName")
     public long changeProductName(@PathParam("id") Long id, @PathParam("name") String name) {
-        // Implementation here
-    
         return productService.updateProduct(id, name);
     }
+
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable long id) {
-        // Implementation here
         return productService.deleteProduct(id);
+    }
+    @GetMapping("/thirdparty/products")
+    public Flux<String> getProductList() {
+        System.out.println("Fetching product list from third party service");
+        return webClient.get().uri("/list").retrieve().bodyToFlux(String.class);
     }
 
 }

@@ -17,7 +17,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void registerProduct(Products product) {
-        // TODO Auto-generated method stub
         if (product.getName().equals("Wifi")) {
             throw new ProductIsNotAvailable("Product with name 'Wifi' is not available for registration.");
         }
@@ -26,13 +25,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Products> getAllProducts() {
-        // TODO Auto-generated method stub
         return productRepository.findAll();
     }
 
     @Override
     public long updateProduct(Products product) {
-        // TODO Auto-generated method stub
         Products existingProduct = productRepository.findById(product.getId()).orElse(null);
         if (existingProduct != null) {
             existingProduct.setName(product.getName());
@@ -45,7 +42,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public long updateProduct(Long id, String name) {
-        // TODO Auto-generated method stub
         Products existingProduct = productRepository.findById(id).orElse(null);
         if (existingProduct != null) {
             existingProduct.setName(name);
@@ -56,7 +52,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String deleteProduct(long id) {
-        // TODO Auto-generated method stub
         if (productRepository.findById(id).isEmpty()) {
             return "Product not found with Id: " + id;
         } else {
