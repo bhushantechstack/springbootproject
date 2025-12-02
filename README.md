@@ -14,3 +14,6 @@
 
 ### To Delete Specific product delete Call
 ** http://localhost:8080/api/delete/1
+
+### Get product list by consuming third party api
+** http://localhost:8080/api/thirdparty/products

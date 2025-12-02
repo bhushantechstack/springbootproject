@@ -22,7 +22,7 @@ import jakarta.websocket.server.PathParam;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class ProductController {
 
     @Autowired
@@ -32,6 +32,11 @@ public class ProductController {
 
     public ProductController(WebClient webClient) {
         this.webClient = webClient;
+    }
+
+    @GetMapping("/")
+    public String welcome() {
+        return "Welcome to Product Service";
     }
 
     @GetMapping("/product")
